@@ -1,5 +1,4 @@
 from random import randint
-from SimpleGraphics import *
 from time import *
 
 def drawMap(wide,tall):
@@ -16,6 +15,7 @@ def drawPath(map,x,y,z):
 			xDir = [-1,0,1,0]
 			yDir = [0,-1,0,1]
 			filled = 0
+			#If two many squares are filled do not continue
 			for dir in range(4):
 				x1=x+xDir[dir]
 				y1=y+yDir[dir]
@@ -25,6 +25,7 @@ def drawPath(map,x,y,z):
 			if(filled<=1):
 				map[y][x]=1
 				z+=1
+				#Chance to draw up to 4 paths but more likely between 1 and 3
 				for dir in range(5):
 					curDir = randint(0,3)
 					x1=x+xDir[curDir]
@@ -63,6 +64,7 @@ def findLongestPath(map,x,y):
 	return longPath
 	
 def multilevelMaze(levels,wide,tall,initX,initY):
+	#Map builds multiple mazes with each map succesive map beginning where the previous ended for an effect similar to falling through to the next level.
 	maze = []
 	startX = initX
 	startY = initY	
@@ -74,10 +76,9 @@ def multilevelMaze(levels,wide,tall,initX,initY):
 				if(map[y][x]==6):
 					startX=x
 					startY=y
-	game = {"maze":maze, "player":{"x":initX,"y":initY},"currentLvl":0}
 	return maze
 
-def multiToString(maze):
+def mazeToString(maze):
 	outStr = ""
 	for i in maze:
 		for y in i:
@@ -94,65 +95,5 @@ def multiToString(maze):
 		outStr=outStr+"\n"	
 	return outStr
 	
-def drawMaze(maze,pixelSize):
-	setOutline("seashell2")
-	for y in range(len(maze)):
-		for x in range(len(maze[0])):
-			if(maze[y][x]==1):
-				setFill("seashell")
-			if(maze[y][x]==0):
-				setFill("seashell4")
-			if(maze[y][x]==5):
-				setFill("spring green")
-				start = [x,y]
-			if(maze[y][x]==6):
-				setFill("tomato")
-				end = [x,y]
-			rect((x*pixelSize),(y*pixelSize),pixelSize,pixelSize)
-	
-def moveLeft(maze):
-	if(maze[player][x]>=1):
-		if(maze[maze][maze[currentLvl]][maze[player[y]][maze[player[x]-1]]==1 or maze[maze][maze[currentLvl]][maze[player[y]][maze[player[x]-1]]==5):
-			maze[player][x]--
-			sleep(1)
-			return maze
-		elif(maze[maze][maze[currentLvl]][maze[player[y]][maze[player[x]-1]]==6):
-			maze[player][x]--
-			maze[currentLvl]++
-	return maze
-
-def moveUp(maze):
-	if(maze[player][y]>=1):
-		if(maze[maze][maze[currentLvl]][maze[player[y]-1][maze[player[x]]]==1 or maze[maze][maze[currentLvl]][maze[player[y]-1][maze[player[x]]]==5):
-			maze[player][y]--
-			sleep(1)
-			return maze
-		elif(maze[maze][maze[currentLvl]][maze[player[y]-1][maze[player[x]]]==6):
-			maze[player][y]--
-			maze[currentLvl]++
-	return maze
-
-def moveRight(maze):
-	if(maze[player][x]<len(maze[maze])-1):
-		if(maze[maze][maze[currentLvl]][maze[player[y]][maze[player[x]+1]]==1 or maze[maze][maze[currentLvl]][maze[player[y]][maze[player[x]+1]]==1):
-			maze[player][x]++
-			sleep(1)
-			return maze
-		elif(maze[maze][maze[currentLvl]][maze[player[y]][maze[player[x]+1]]==6):
-			maze[player][x]++
-			maze[currentLvl]++
-	return maze
-	
-def moveDown(maze):
-	if(maze[player][x]<len(maze[maze])-1):
-		if(maze[maze][maze[currentLvl]][maze[player[y]+1][maze[player[x]]]==1 or maze[maze][maze[currentLvl]][maze[player[y]+1][maze[player[x]]]==5):
-			maze[player][y]++
-			sleep(1)
-			return maze
-		elif(maze[maze][maze[currentLvl]][maze[player[y]+1][maze[player[x]]]==6):
-			maze[player][y]++
-			maze[currentLvl]++
-	return maze
-
 	
 	
